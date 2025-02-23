@@ -11,6 +11,7 @@ import {
 	useLoaderData,
 	useNavigation,
 } from "@remix-run/react";
+import { useEffect } from "react";
 import appStylesHref from "./app.css?url";
 import { createEmptyContact, getContacts } from "./data";
 
@@ -33,6 +34,14 @@ export const action = async () => {
 export default function App() {
 	const { contacts, q } = useLoaderData<typeof loader>();
 	const navigation = useNavigation();
+
+	// `URLSearchParams`と入力値を同期化
+	useEffect(() => {
+		const searchField = document.getElementById("q");
+		if (searchField instanceof HTMLInputElement) {
+			searchField.value = q || "";
+		}
+	}, [q]);
 
 	return (
 		<html lang="en">

@@ -65,7 +65,10 @@ export default function App() {
 							// biome-ignore lint/a11y/useSemanticElements: <explanation>
 							role="search"
 							onChange={(event) => {
-								submit(event.currentTarget);
+								const isFirstSearch = q === null;
+								submit(event.currentTarget, {
+									replace: !isFirstSearch,
+								});
 							}}
 						>
 							<input

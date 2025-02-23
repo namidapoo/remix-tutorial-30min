@@ -10,6 +10,7 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 	useNavigation,
+	useSubmit,
 } from "@remix-run/react";
 import { useEffect } from "react";
 import appStylesHref from "./app.css?url";
@@ -34,6 +35,7 @@ export const action = async () => {
 export default function App() {
 	const { contacts, q } = useLoaderData<typeof loader>();
 	const navigation = useNavigation();
+	const submit = useSubmit();
 
 	// `URLSearchParams`と入力値を同期化
 	useEffect(() => {
@@ -55,8 +57,14 @@ export default function App() {
 				<div id="sidebar">
 					<h1>Remix Contacts</h1>
 					<div>
-						{/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
-						<Form id="search-form" role="search">
+						<Form
+							id="search-form"
+							// biome-ignore lint/a11y/useSemanticElements: <explanation>
+							role="search"
+							onChange={(event) => {
+								submit(event.currentTarget);
+							}}
+						>
 							<input
 								id="q"
 								aria-label="Search contacts"
